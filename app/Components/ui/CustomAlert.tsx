@@ -1,8 +1,14 @@
-'use client';
-import { Icons } from './Icons'; 
-import { clsx } from '../../lib/types'; 
+import React from 'react';
+import { Icons } from '../ui/Icons';
+import { clsx } from '../../lib/utility';
+import { AlertMessage } from '../../lib/types';
 
-export const CustomAlert = ({ message, type, onClose }) => {
+interface CustomAlertProps extends AlertMessage {
+    onClose: () => void;
+}
+
+// custom Alert Components
+export const CustomAlert: React.FC<CustomAlertProps> = ({ message, type, onClose }) => {
     if (!message) return null;
 
     const baseClasses = "fixed bottom-4 left-1/2 transform -translate-x-1/2 p-4 rounded-xl shadow-2xl z-[100] transition-all duration-500 max-w-sm w-11/12 flex items-center space-x-3";
@@ -21,8 +27,8 @@ export const CustomAlert = ({ message, type, onClose }) => {
         <div className={clsx(baseClasses, typeClasses)} role="alert" aria-live="assertive">
             <IconComponent className="w-6 h-6 flex-shrink-0"/>
             <span className="font-medium text-sm flex-grow">{message}</span>
-            <button 
-                onClick={onClose} 
+            <button
+                onClick={onClose}
                 className="ml-2 p-1 rounded-full hover:bg-white/20 transition-colors"
                 aria-label="Close notification"
             >

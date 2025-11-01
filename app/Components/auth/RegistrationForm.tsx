@@ -1,13 +1,10 @@
 'use client';
 import Link from 'next/link';
 import React, { RefObject } from 'react'; 
-// FIX 1: Assuming FormInput and Icons are from the same directory level as 'auth'
 import { FormInput } from '../ui/FormInput'; 
 import { Icons } from '../ui/Icons'; 
-import { clsx } from '../../lib/types'; // FIX 2: Changed 'lib/types' to 'lib/utils'
+import { clsx } from '../../lib/types';
 import { KIBRAN_COLOR, KIBRAN_COLOR_HOVER } from '../../lib/constants'; 
-
-// --- 1. Define Props Interface ---
 interface FormSectionProps {
     isDarkMode: boolean;
     formData: {
@@ -32,11 +29,9 @@ interface FormSectionProps {
     confirmPasswordRef: RefObject<HTMLInputElement | null>;
     submitButtonRef: RefObject<HTMLButtonElement | null>; 
 }
-
-// --- 2. Update Component Signature with Interface ---
 export const FormSection = ({
     isDarkMode, formData, formErrors, handleChange, handleBlur, handleKeyDown,
-    handleSubmit, roles, usernameRef, emailRef, passwordRef,
+    handleSubmit, usernameRef, emailRef, passwordRef,
     confirmPasswordRef, submitButtonRef
 }: FormSectionProps) => { 
     
@@ -70,86 +65,53 @@ export const FormSection = ({
                     >
                         New User Access
                     </h1>
-                    {/* <p className="mb-10 text-lg text-slate-600 dark:text-slate-400 transition-colors duration-500">
-                        Assign a role and secure the new account details.
-                    </p> */}
-
                     <form onSubmit={handleSubmit} noValidate>
+                        {/* Username FIELD WITH PLACEHOLDER */}
                         <FormInput 
-                            name="username" label="Username" icon={Icons.UserIcon} isRequired={true} 
-                            error={formErrors.username} isDarkMode={isDarkMode}
+                            name="username" label="Username" 
+                            type="text" 
+                            icon={Icons.UserIcon} isRequired={true} 
+                            errorMessage={formErrors.username} isDarkMode={isDarkMode}
                             value={formData.username}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             ref={usernameRef}
                             onKeyDown={(e) => handleKeyDown(e, emailRef as NextRefType)}
+                            placeholder="Enter Username"
                         />
+                        {/* EMAIL FIELD with placeholder */}
                         <FormInput 
                             name="email" type="email" label="Email Address" icon={Icons.MailIcon} isRequired={true} 
-                            error={formErrors.email} isDarkMode={isDarkMode}
+                            errorMessage={formErrors.email} isDarkMode={isDarkMode}
                             value={formData.email}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             ref={emailRef}
                             onKeyDown={(e) => handleKeyDown(e, passwordRef as NextRefType)}
+                            placeholder="Enter Email Address"
                         />
+                        {/* PASSWORD FIELD with placeholder */}
                         <FormInput 
                             name="password" type="password" label="Password" icon={Icons.LockIcon} isRequired={true} 
-                            error={formErrors.password} isDarkMode={isDarkMode}
+                            errorMessage={formErrors.password} isDarkMode={isDarkMode}
                             value={formData.password}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             ref={passwordRef}
                             onKeyDown={(e) => handleKeyDown(e, confirmPasswordRef as NextRefType)}
+                            placeholder="Enter a secure password"
                         />
-
+                        {/* CONFIRM PASSWORD FIELD with placeholder */}
                         <FormInput 
                             name="confirmPassword" type="password" label="Confirm Password" icon={Icons.LockIcon} isRequired={true} 
-                            error={formErrors.confirmPassword} isDarkMode={isDarkMode}
+                            errorMessage={formErrors.confirmPassword} isDarkMode={isDarkMode}
                             value={formData.confirmPassword}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             ref={confirmPasswordRef}
                             onKeyDown={(e) => handleKeyDown(e, null)}
+                            placeholder="Confirm your password"
                         />
-
-                        {/* Role Selection Field: Fixed div nesting */}
-                        {/* <div className="mb-8"> 
-                            <label htmlFor="role" className={roleLabelClasses}> 
-                                System Access Level <span className="text-red-500">*</span>
-                            </label>
-                            <div className="relative">
-                                <Icons.RoleIcon className={clsx("absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 transition-colors duration-500",
-                                    isDarkMode ? 'text-blue-400' : 'text-slate-700')}
-                                    style={!isDarkMode ? { color: KIBRAN_COLOR } : {}} 
-                                /> 
-                                <select
-                                    id="role"
-                                    name="role"
-                                    value={formData.role}
-                                    onChange={handleChange}
-                                    required
-                                    onKeyDown={(e) => handleKeyDown(e as React.KeyboardEvent<HTMLSelectElement>, submitButtonRef as NextRefType)}
-                                    className={clsx(`w-full pl-12 pr-10 py-3.5 border rounded-xl shadow-lg outline-none appearance-none transition-all duration-300 font-semibold text-sm cursor-pointer`,
-                                        isDarkMode
-                                            ? 'bg-slate-700 text-slate-100 border-slate-600 focus:border-[#1A6AA5] focus:ring-2 focus:ring-[#1A6AA5]/50' 
-                                            : 'bg-white/70 text-slate-900 border-gray-300 focus:border-[#003A70] focus:ring-2 focus:ring-[#003A70]/50' 
-                                    )}
-                                >
-                                    {roles.map(r => (
-                                        <option key={r} value={r} className={isDarkMode ? 'bg-slate-700' : 'bg-white'}>
-                                            {r}
-                                        </option>
-                                    ))}
-                                </select>
-                                <svg className={clsx("absolute right-4 top-1/2 transform -translate-y-1/2 w-4 h-4 pointer-events-none transition-colors duration-500",
-                                    isDarkMode ? 'text-slate-400' : 'text-slate-600')} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                                </svg>
-                            </div>
-                        </div> */}
-
-
                         {/* Submit Button */}
                         <button 
                             type="submit"

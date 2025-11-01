@@ -2,7 +2,7 @@
 'use client';
 
 import React from 'react';
-import { clsx } from '../../lib/types';
+import { clsx } from '../../lib/utility';
 // Assuming your component paths
 import { FormInput } from '../ui/FormInput'; 
 import { Icons } from '../ui/Icons'; // Using the named export
@@ -12,7 +12,6 @@ import { KIBRAN_COLOR, KIBRAN_COLOR_HOVER } from '../../lib/constants';
 interface MedicineFormData {
     name: string;
     category: string;
-    type: string;
     batchNumber: string;
     manufacturer: string;
     expiryDate: string;

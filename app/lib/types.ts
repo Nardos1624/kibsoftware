@@ -1,18 +1,31 @@
-// Utility function to merge Tailwind classes
-export const clsx = (...classes) => classes.filter(Boolean).join(' ');
+// A simple utility type for form state
+export interface FormData {
+    username: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+    role: string;
+}
 
-// Assigning password criteria check function
-export const checkPasswordCriteria = (password) => ({
-    minLength: password.length >= 8,
-    hasUppercase: /[A-Z]/.test(password),
-    hasLowercase: /[a-z]/.test(password),
-    hasNumber: /[0-9]/.test(password),
-    hasSpecialChar: /[^A-Za-z0-9]/.test(password),
-});
-
-export type UserRole = 'Super Admin' | 'Admin' | 'Store Keeper' | 'Sales' | 'Cashier' | 'Guest';
-
-export const canModifyMedicine = (role: UserRole): boolean => {
-    // Only Super Admin, Admin, and Store Keeper can modify (add, edit, delete)
-    return ['Super Admin', 'Admin', 'Store Keeper'].includes(role);
+// A simple utility type for form errors
+export type FormErrors = {
+    [K in keyof FormData]?: string;
 };
+
+// Type for the global alert message
+export interface AlertMessage {
+    text: string;
+    type: 'success' | 'error' | '';
+}
+
+// Type for Icon components
+export type IconProps = React.SVGProps<SVGSVGElement>;
+
+// Type for password criteria check result
+export interface PasswordCriteria {
+    minLength: boolean;
+    hasUppercase: boolean;
+    hasLowercase: boolean;
+    hasNumber: boolean;
+    hasSpecialChar: boolean;
+}

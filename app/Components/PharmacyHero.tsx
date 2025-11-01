@@ -1,10 +1,61 @@
-import { Icons } from '../Components/ui/Icons';
-import { clsx } from '../lib/types'; 
-import { KIBRAN_COLOR, KIBRAN_COLOR_LIGHT } from '../lib/constants'; 
+import React from 'react';
+import { Icons } from '../Components/ui/Icons'; 
+import { clsx } from '../lib/utility'; 
+import { 
+    KIBRAN_COLOR, 
+    KIBRAN_COLOR_LIGHT, 
+    KIBRAN_COLOR as PRIMARY_COLOR, 
+    KIBRAN_COLOR_LIGHT as PRIMARY_COLOR_LIGHT 
+} from '../lib/constants'; 
 
-// --- Pharmacy Hero/Branding Component (Updated for Deep Blue Theme) ---
-export const PharmacyHero = ({ isDarkMode }) => {
-    // Changed shadows to blue
+// --- Types ---
+
+interface HeroProps {
+    isDarkMode: boolean;
+    pageType: 'login' | 'register'; 
+}
+
+interface ThemeToggleProps {
+    isDarkMode: boolean;
+    toggleTheme: () => void;
+}
+
+// ----------------------------------------------------------------------
+// 1. ThemeToggle Component
+// ----------------------------------------------------------------------
+
+// EXPORTED as NAMED EXPORT
+export const ThemeToggle: React.FC<ThemeToggleProps> = ({ isDarkMode, toggleTheme }) => (
+    <button
+        onClick={toggleTheme}
+        className={clsx(`fixed top-4 right-4 p-3 rounded-full shadow-lg transition-all duration-500 z-50
+            hover:scale-105 active:scale-95`,
+            isDarkMode
+                ? 'bg-slate-700 text-blue-400 hover:bg-slate-600'
+                : 'bg-white text-blue-700 hover:bg-slate-200'
+        )}
+        style={{ color: isDarkMode ? PRIMARY_COLOR_LIGHT : PRIMARY_COLOR }}
+        aria-label="Toggle dark and light mode"
+    >
+        {isDarkMode ? <Icons.SunIcon className="w-6 h-6"/> : <Icons.MoonIcon className="w-6 h-6"/>}
+    </button>
+);
+
+// ----------------------------------------------------------------------
+// 2. PharmacyHero Component (Updated with dynamic content)
+// ----------------------------------------------------------------------
+
+// EXPORTED as NAMED EXPORT
+export const PharmacyHero: React.FC<HeroProps> = ({ isDarkMode, pageType }) => {
+    // Determine Header and Content based on pageType
+    const headerText = pageType === 'login' 
+        ? 'Welcome Back to Kibran Wholesale'
+        : 'Create Your Kibran Wholesale Account';
+        
+    const bodyText = pageType === 'login'
+        ? 'Please log in to access the core system for managing wholesale inventory, distribution, and medication safety assurance.'
+        : 'Register a new user for access to the core system used to manage wholesale inventory, distribution, and medication safety assurance.';
+        
     const logoShadowClass = isDarkMode ? 'hover:shadow-blue-500/80' : 'hover:shadow-blue-800/60';
 
     return (
@@ -28,12 +79,21 @@ export const PharmacyHero = ({ isDarkMode }) => {
                         alt="Kibran Pharmaceutical Wholesale Logo" 
                         className="w-full h-full object-cover animate-fadeInDown transition-all duration-500 ease-out group-hover:scale-105"
                         // Placeholder uses KIBRAN_COLOR for consistency
-                        onError={(e) => { e.target.onerror = null; e.target.src = `https://placehold.co/320x320/003A70/d1d5db?text=KIBRAN+LOGO`; }}
+                        onError={(e) => { 
+                            const target = e.currentTarget as HTMLImageElement;
+                            const placeholderSrc = `https://placehold.co/320x320/${KIBRAN_COLOR.substring(1)}/d1d5db?text=KIBRAN+LOGO`;
+                            if (target.src !== placeholderSrc) {
+                                target.onerror = null; 
+                                target.src = placeholderSrc; 
+                            }
+                        }}
                     />
                 </div>
                 
-                <p className={`text-2xl leading-relaxed font-light opacity-90 mb-12  inline-block`}>
-                    Register a new user for access to the core system used to manage wholesale inventory, distribution, and medication safety assurance.
+            
+                
+                <p className={`text-2xl leading-relaxed font-light opacity-90 mb-12 inline-block`}>
+                    {bodyText}
                 </p>
                 
                 <div className="flex justify-center items-center space-x-12 animate-fadeInUp delay-500">

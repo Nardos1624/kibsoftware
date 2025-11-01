@@ -1,8 +1,6 @@
 'use client';
 import Link from 'next/link';
 import React, { useState, useEffect, useCallback, useRef, forwardRef } from 'react';
-// KIBRAN BRAND COLOR: Vibrant Blue, based on the logo
-// UPDATED: Changed to slightly darker, deeper blue shades.
 const KIBRAN_COLOR = '#003A70'; // Deeper Blue (Primary)
 const KIBRAN_COLOR_HOVER = '#002C55'; // Darker for hover effect
 const KIBRAN_COLOR_LIGHT = '#1A6AA5'; // Slightly darker light blue for dark mode contrast
@@ -337,7 +335,7 @@ const FormSection = ({
                         <p className="text-center font-bold">
                             New user?
                             <Link 
-                                href='/Registration' 
+                                href='/Register' 
                                 className={clsx(baseLinkClasses, isDarkMode ? 'text-blue-500 hover:text-blue-400' : 'hover:text-opacity-80')}
                                 // CHANGED: Link color uses the custom KIBRAN_COLOR hex code in light mode.
                                 style={!isDarkMode ? { color: KIBRAN_COLOR} : {}}
